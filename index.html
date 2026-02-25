@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>喫茶店 AI献立ツール - パスタ提案</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>☕ AI献立ツール</h1>
+      <p class="subtitle">メイン食材からパスタメニューと必要な食材を提案します</p>
+    </header>
+
+    <section class="input-section">
+      <label for="ingredient">メイン食材</label>
+      <div class="input-row">
+        <input type="text" id="ingredient" placeholder="例: トマト、エビ、ベーコン" autocomplete="off">
+        <button type="button" id="submit">パスタを提案</button>
+      </div>
+    </section>
+
+    <section class="results" id="results" aria-live="polite">
+      <!-- 提案結果がここに表示される -->
+    </section>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
