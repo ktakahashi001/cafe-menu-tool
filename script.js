@@ -4,7 +4,7 @@
   const submitBtn = document.getElementById('submit');
   const resultsEl = document.getElementById('results');
 
-  // パスタのバリエーション（メニュー名のテンプレート）※毎回この中からランダムに3つ提案
+  // パスタのバリエーション（メニュー名のテンプレート）※毎回この中からランダムに最大10個提案
   const pastaTemplates = [
     { name: 'のクリームパスタ', base: ['スパゲッティ', '生クリーム', 'バター', 'にんにく', '塩', 'こしょう'] },
     { name: 'のトマトパスタ', base: ['スパゲッティ', 'トマト', 'にんにく', 'オリーブオイル', '塩', 'こしょう', 'バジル'] },
@@ -77,7 +77,7 @@
       return [];
     }
 
-    const picked = shuffleArray(candidates).slice(0, 3);
+    const picked = shuffleArray(candidates).slice(0, 10);
     return picked.map(function (t) {
       const menuName = trimmed + t.name;
       const ingredients = getIngredientsForMenu(trimmed, t);
