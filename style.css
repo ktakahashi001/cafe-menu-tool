@@ -121,6 +121,12 @@ header h1 {
   color: #5c4033;
 }
 
+.menu-card .menu-note {
+  font-size: 0.8rem;
+  color: #7a6456;
+  margin: 0 0 0.6rem;
+}
+
 .menu-card .ingredients-title {
   font-size: 0.85rem;
   font-weight: 600;
