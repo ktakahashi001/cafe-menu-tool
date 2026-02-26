@@ -1,5 +1,6 @@
 (function () {
   const ingredientInput = document.getElementById('ingredient');
+  const excludeInput = document.getElementById('exclude');
   const submitBtn = document.getElementById('submit');
   const resultsEl = document.getElementById('results');
 
@@ -38,6 +39,18 @@
     return [mainIngredient].concat(base);
   }
 
+  function parseExcludeList(raw) {
+    if (!raw) return [];
+    return raw
+      .split(/[、,，\s]+/)
+      .map(function (item) {
+        return item.trim();
+      })
+      .filter(function (item) {
+        return item.length > 0;
+      });
+  }
+
   function shuffleArray(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -47,11 +60,24 @@
     return a;
   }
 
-  function suggestPasta(main) {
+  function suggestPasta(main, excludeList) {
     const trimmed = main.trim();
     if (!trimmed) return null;
 
-    const picked = shuffleArray(pastaTemplates).slice(0, 3);
+    const excluded = Array.isArray(excludeList) ? excludeList : [];
+
+    const candidates = pastaTemplates.filter(function (t) {
+      const ingredients = getIngredientsForMenu(trimmed, t);
+      return !ingredients.some(function (ing) {
+        return excluded.indexOf(ing) !== -1;
+      });
+    });
+
+    if (candidates.length === 0) {
+      return [];
+    }
+
+    const picked = shuffleArray(candidates).slice(0, 3);
     return picked.map(function (t) {
       const menuName = trimmed + t.name;
       const ingredients = getIngredientsForMenu(trimmed, t);
@@ -89,10 +115,17 @@
 
   function onSubmit() {
     const value = ingredientInput.value;
-    const suggestions = suggestPasta(value);
+    const excludeValue = excludeInput ? excludeInput.value : '';
+    const excludeList = parseExcludeList(excludeValue);
+    const suggestions = suggestPasta(value, excludeList);
 
     if (!suggestions) {
       showMessage('メイン食材を入力してください。', true);
+      return;
+    }
+
+    if (suggestions.length === 0) {
+      showMessage('条件に合うパスタ候補が見つかりませんでした。入れない食材を減らしてみてください。', false);
       return;
     }
 
